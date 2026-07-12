@@ -1,0 +1,47 @@
+name: Playwright Automation
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: '30 12 * * *'   # 6:00 PM IST
+
+jobs:
+
+  playwright:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Execute Playwright Tests
+        run: npx playwright test
+
+      - name: Upload HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Playwright-Report
+          path: playwright-report/
+
+      - name: Send Slack Notification
+        if: always()
+        run: |
+          curl -X POST \
+          -H "Content-Type: application/json" \
+          --data "{\"text\":\"✅ Playwright Execution Completed\nStatus: ${{ job.status }}\nRepository: ${{ github.repository }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
+          ${{ secrets.SLACK_WEBHOOK }}
