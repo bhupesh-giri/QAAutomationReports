@@ -1,19 +1,20 @@
 name: Playwright Automation
 
 on:
+  push:
+    branches:
+      - main
+
   workflow_dispatch:
 
   schedule:
-    - cron: '30 12 * * *'   # 6:00 PM IST
+    - cron: '30 12 * * *'
 
 jobs:
-
   playwright:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -42,6 +43,6 @@ jobs:
         if: always()
         run: |
           curl -X POST \
-          -H "Content-Type: application/json" \
-          --data "{\"text\":\"✅ Playwright Execution Completed\nStatus: ${{ job.status }}\nRepository: ${{ github.repository }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
-          ${{ secrets.SLACK_WEBHOOK }}
+            -H "Content-Type: application/json" \
+            --data "{\"text\":\"✅ Playwright Execution Completed\nStatus: ${{ job.status }}\nRepository: ${{ github.repository }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}" \
+            ${{ secrets.SLACK_WEBHOOK }}
