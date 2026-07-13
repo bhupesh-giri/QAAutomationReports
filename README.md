@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SauceDemo Playwright Framework
 
 This project contains a Playwright automation framework for SauceDemo using the Page Object Model (POM).
@@ -45,3 +46,6 @@ npx playwright show-report playwright-report
 - Usernames are read from the UI instead of being hardcoded.
 - The test continues even when a user is locked out.
 - Screenshots are captured on failures.
+=======
+
+>>>>>>> cdb6589dbd862a8ce05cb7f23fc41e864ddb385b
